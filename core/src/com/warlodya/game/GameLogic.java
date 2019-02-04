@@ -2,12 +2,9 @@ package com.warlodya.game;
 
 import java.util.LinkedList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.warlodya.entity.Entity;
 import com.warlodya.entity.GameEntity;
 import com.warlodya.entity.Player;
-import com.warlodya.entity.Projectile;
 import com.warlodya.game.util.Const;
 import com.warlodya.game.util.MapGenerator;
 
@@ -15,21 +12,18 @@ public class GameLogic {
 	private int[][] gameMap;
 	private int score;
 	private LinkedList<GameEntity> mobList;
-	private LinkedList<Projectile> projectileList;
 
 	private Player player;
 
 	public GameLogic() {
 		mobList = new LinkedList<GameEntity>();
-		projectileList = new LinkedList<Projectile>();
-		gameMap = MapGenerator.generateMap();
+		gameMap = MapGenerator.generateMap(80,90);
 		player = new Player(100, 100, 16, 16);
 		mobList.add(player);
 	}
 
 	public void update() {
 		mobUpdate();
-		moveProjectiles();
 	}
 
 	private void mobUpdate() {
@@ -145,20 +139,11 @@ public class GameLogic {
 
 			resultposition = Math.max(endPos, (y + 1) * Const.BLOCK_SIZE);
 		}
-		System.out.println("Velocity: " + velocity + "  dY= " + (m.getY() - resultposition) + " Y= " + resultposition);
 		m.setY(resultposition);
 		m.setTimeInJump(m.getTimeInJump() + 1);
 
 	}
 
-	private void moveProjectiles() {
-		// TODO
-
-	}
-	
-	public void addProjectile(Projectile p) {
-		projectileList.add(p);
-	}
 	
 
 	private Point findTile(Entity e) {
@@ -192,10 +177,6 @@ public class GameLogic {
 	public LinkedList<GameEntity> getmobList() {
 		LinkedList<GameEntity> entityList = new LinkedList<GameEntity>(mobList);
 		return entityList;
-	}
-
-	public LinkedList<Projectile> getProjectileList() {
-		return new LinkedList<Projectile>(projectileList);
 	}
 
 	public Player getPlayer() {

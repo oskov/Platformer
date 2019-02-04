@@ -11,7 +11,7 @@ public abstract class Entity {
 	protected float maxSpeed;
 	protected float minSpeed;
 	protected float acceleration;
-	
+	protected boolean lookForward;
 	Entity(float x, float y, float width, float height) {
 		this(new Rectangle(x, y, width, height));
 	}
@@ -25,7 +25,13 @@ public abstract class Entity {
 		acceleration=1;
 		bounds=rect;
 	}
+	public boolean isLookForward() {
+		return lookForward;
+	}
 
+	public void setLookForward(boolean lookForward) {
+		this.lookForward = lookForward;
+	}
 	public String getTextureName() {
 		return TextureName;
 	}

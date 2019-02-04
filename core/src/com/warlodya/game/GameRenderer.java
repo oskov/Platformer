@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.warlodya.entity.Entity;
 import com.warlodya.entity.GameEntity;
 import com.warlodya.entity.Player;
 import com.warlodya.entity.State;
@@ -36,8 +35,6 @@ public class GameRenderer {
 	private HashMap<String, HashMap<State, Animation<TextureRegion>>> textures;
 	private float stateTime;
 	private float worldLenght;
-	private Texture projectile;
-	
 
 	public GameRenderer(GameLogic game) {
 		this.game = game;
@@ -50,33 +47,29 @@ public class GameRenderer {
 		view = new ScreenViewport(camera);
 		worldLenght=game.getGameMap().length*Const.BLOCK_SIZE;
 		loadTextures();
-		loadProjectiles();
-	}
-	private void loadProjectiles() {
 
-	projectile=manager.get("textures/Hp.png");
 	}
-	
+
 	private void loadTextures() {
-		loadTexture("textures/Skeleton Walk.png","Skeleton");
-		
+		loadTexture("textures/Skeleton Walk.png","Skeleton", State.Walk,13);
+		loadTexture("textures/Skeleton Idle.png","Skeleton",State.Idle,11);
 	}
-	private void loadTexture(String path, String name) {
+	private void loadTexture(String path, String name, State state, int frames) {
 		Texture tex= manager.get(path);
-		loadTexture(tex,name);
+		loadTexture(tex,name,state,frames);
 	}
 	
-	private void loadTexture(Texture tex,String name) {
+	private void loadTexture(Texture tex,String name, State state, int frames) {
 
-		TextureRegion[][] tmp = TextureRegion.split(tex, tex.getWidth() / 13, tex.getHeight());
-		TextureRegion[] walkframes = new TextureRegion[13];
-		for (int i = 0; i < 13; i++)
+		TextureRegion[][] tmp = TextureRegion.split(tex, tex.getWidth() / frames, tex.getHeight());
+		TextureRegion[] walkframes = new TextureRegion[frames];
+		for (int i = 0; i < frames; i++)
 			walkframes[i] = tmp[0][i];
-		Animation<TextureRegion> walkAnimation = new Animation<TextureRegion>(0.1f, walkframes);
-		HashMap<State, Animation<TextureRegion>> skeleton = new HashMap<>();
-		skeleton.put(State.Walk, walkAnimation);
+		Animation<TextureRegion> animation = new Animation<TextureRegion>(0.1f, walkframes);
+		HashMap<State, Animation<TextureRegion>> texture = new HashMap<>();
+		texture.put(state, animation);
 
-		textures.put(name, skeleton);
+		textures.put(name+state, texture);
 	}
 
 	public void render() {
@@ -84,7 +77,6 @@ public class GameRenderer {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		renderMap();
 		renderMobs();
-		renderProjectiles();
 		stateTime += Gdx.graphics.getDeltaTime();
 		
 		
@@ -114,7 +106,7 @@ public class GameRenderer {
 		}else cameraY=y;
 		
 		
-		camera.position.set(game.getPlayer().getX(), game.getPlayer().getY(), 0);
+		//camera.position.set(game.getPlayer().getX(), game.getPlayer().getY(), 0);
 		camera.position.set(cameraX,cameraY, 0);
 		camera.update();
 	}
@@ -152,9 +144,8 @@ public class GameRenderer {
 			if(!Const.DEBUG) {
 				if(e.isDamaged())batch.setColor(new Color(1,1-e.getTimeDamaged()*0.1f,1-e.getTimeDamaged()*0.1f,0));else batch.setColor(Color.WHITE); 
 				
-				Animation<TextureRegion> walkAnimation = textures.get(e.getTextureName()).get(State.Walk);
-			TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-			// batch.draw(currentFrame,e.getX(),e.getY());
+			Animation<TextureRegion> animation = textures.get(e.getTextureName()+e.getState()).get(e.getState());
+			TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 			boolean flip = !e.isLookForward();
 			batch.draw(currentFrame, flip ? e.getX() + e.getWidth() : e.getX(), e.getY(),
 					flip ? -e.getWidth() : e.getWidth(),						// трик чтобы поворачивать спрайт и не грузить перфоманс
@@ -179,8 +170,6 @@ public class GameRenderer {
 		shapeRenderer.end();
 		
 	}
-	private void renderProjectiles() {
 
-	}
 
 }

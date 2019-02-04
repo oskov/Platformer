@@ -1,9 +1,6 @@
 package com.warlodya.entity;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Rectangle;
-import com.warlodya.ability.Ability;
 import com.warlodya.game.util.Const;
 
 public abstract class GameEntity extends Entity {
@@ -11,7 +8,6 @@ public abstract class GameEntity extends Entity {
 	private boolean hasModifier;
 	private boolean canJump;
 	private boolean jumped;
-	private boolean lookForward;
 	private boolean isPlayer = false;
 	private int timeInJump;
 	private int currentHP;
@@ -21,7 +17,6 @@ public abstract class GameEntity extends Entity {
 	private boolean death;
 
 	protected int maxHP;
-	protected ArrayList<Ability> abilityList;
 	private State state;
 	
 	
@@ -32,7 +27,8 @@ public abstract class GameEntity extends Entity {
 		super(x, y, width, height);
 
 	}
-
+	
+	
 	public GameEntity(Rectangle rect) {
 		super(rect);
 		modifier = null;
@@ -46,9 +42,8 @@ public abstract class GameEntity extends Entity {
 	protected void init() {
 		death=false;
 		currentHP = maxHP;
-		state = State.Stand;
+		state = State.Idle;
 		speed=0;
-		abilityList= new ArrayList<>();
 	}
 	public void doDamage(int damage) {
 		//TODO
@@ -87,7 +82,7 @@ public abstract class GameEntity extends Entity {
 			speed=this.minSpeed;
 		}
 		if((!rightPressed&&!leftPressed)||(rightPressed&&leftPressed)) {
-			state=State.Stand;
+			state=State.Idle;
 			setVectorX(0);
 		}
 	}
@@ -129,14 +124,6 @@ public abstract class GameEntity extends Entity {
 	public void setState(State state) {
 		this.state = state;
 	}
-	public void addAbility(Ability ability) {
-		abilityList.add(ability);
-		
-	}
-
-	public ArrayList<Ability> getAbilityList() {
-		return abilityList;
-	}
 
 	public boolean isPlayer() {
 		return isPlayer;
@@ -170,13 +157,7 @@ public abstract class GameEntity extends Entity {
 		this.canJump = canJump;
 	}
 
-	public boolean isLookForward() {
-		return lookForward;
-	}
 
-	public void setLookForward(boolean lookForward) {
-		this.lookForward = lookForward;
-	}
 
 	public int getTimeInJump() {
 		return timeInJump;

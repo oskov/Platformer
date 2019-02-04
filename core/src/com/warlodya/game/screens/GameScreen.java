@@ -24,14 +24,12 @@ import com.warlodya.game.util.ContentLoader;
 import com.warlodya.game.util.InputHandler;
 
 public class GameScreen implements Screen {
-	private Platformer application;
 	private GameLogic game;
 	private GameRenderer renderer;
 	int i=0;
-	public GameScreen(Platformer app) {
+	public GameScreen() {
 		game = new GameLogic();
 		renderer=new GameRenderer(game);
-		application = app;
 		InputMultiplexer input = new InputMultiplexer(new InputHandler(game));
 		Gdx.input.setInputProcessor(input);
 
@@ -45,9 +43,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		game.update();	
-		
 		renderer.render();
-		i++;
 	}
 
 	@Override

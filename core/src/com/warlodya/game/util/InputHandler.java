@@ -21,9 +21,6 @@ public class InputHandler implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		boolean moveinput=false;
 		switch (keycode) {
-		case Keys.SPACE:
-			
-			break;
 		case Keys.A:
 			player.leftPressed = true;
 			moveinput=true;

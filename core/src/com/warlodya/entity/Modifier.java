@@ -11,6 +11,6 @@ public class Modifier extends GameEntity {
 		
 	}
 	
-	
+		
 	
 }

@@ -1,8 +1,5 @@
 package com.warlodya.entity;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.warlodya.game.util.ContentLoader;
-
 public class Player extends GameEntity {
 	
 
@@ -16,6 +13,7 @@ public class Player extends GameEntity {
 		setMaxSpeed(3);
 		setAcceleration(0.1f);
 		setJumpPower(5);
+		
 		init();
 	}
 	
