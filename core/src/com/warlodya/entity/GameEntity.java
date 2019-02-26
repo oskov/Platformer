@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.warlodya.game.util.Const;
 
 public abstract class GameEntity extends Entity {
-	private Modifier modifier;
 	private boolean hasModifier;
 	private boolean canJump;
 	private boolean jumped;
@@ -31,7 +30,6 @@ public abstract class GameEntity extends Entity {
 	
 	public GameEntity(Rectangle rect) {
 		super(rect);
-		modifier = null;
 		hasModifier = false;
 		canJump = true;
 		lookForward = true;
@@ -131,14 +129,6 @@ public abstract class GameEntity extends Entity {
 
 	protected void setPlayer() {
 		isPlayer = true;
-	}
-
-	public Modifier getModifier() {
-		return modifier;
-	}
-
-	public void setModifier(Modifier modifier) {
-		this.modifier = modifier;
 	}
 
 	public boolean isHasModifier() {

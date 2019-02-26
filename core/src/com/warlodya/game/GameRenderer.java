@@ -49,7 +49,7 @@ public class GameRenderer {
 		loadTextures();
 
 	}
-
+	
 	private void loadTextures() {
 		loadTexture("textures/Skeleton Walk.png","Skeleton", State.Walk,13);
 		loadTexture("textures/Skeleton Idle.png","Skeleton",State.Idle,11);
@@ -58,7 +58,7 @@ public class GameRenderer {
 		Texture tex= manager.get(path);
 		loadTexture(tex,name,state,frames);
 	}
-	
+	// Loads Texture as animation
 	private void loadTexture(Texture tex,String name, State state, int frames) {
 
 		TextureRegion[][] tmp = TextureRegion.split(tex, tex.getWidth() / frames, tex.getHeight());
@@ -110,6 +110,7 @@ public class GameRenderer {
 		camera.position.set(cameraX,cameraY, 0);
 		camera.update();
 	}
+	
 	private void renderMap() {
 		int[][] map = game.getGameMap();
 		GameEntity tmp = game.getmobList().getFirst();
@@ -148,7 +149,7 @@ public class GameRenderer {
 			TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 			boolean flip = !e.isLookForward();
 			batch.draw(currentFrame, flip ? e.getX() + e.getWidth() : e.getX(), e.getY(),
-					flip ? -e.getWidth() : e.getWidth(),						// трик чтобы поворачивать спрайт и не грузить перфоманс
+					flip ? -e.getWidth() : e.getWidth(),						// trick for performance
 					e.getHeight());
 				
 			}else {
