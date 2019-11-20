@@ -4,172 +4,166 @@ import com.badlogic.gdx.math.Rectangle;
 import com.warlodya.game.util.Const;
 
 public abstract class GameEntity extends Entity {
-	private boolean hasModifier;
-	private boolean canJump;
-	private boolean jumped;
-	private boolean isPlayer = false;
-	private int timeInJump;
-	private int currentHP;
-	private float jumpPower;
-	private boolean damaged;
-	private int timeDamaged;
-	private boolean death;
+    public boolean rightPressed = false;
+    public boolean leftPressed = false;
+    protected int maxHP;
+    private boolean hasModifier;
+    private boolean canJump;
+    private boolean jumped;
+    private boolean isPlayer = false;
+    private int timeInJump;
+    private int currentHP;
+    private float jumpPower;
+    private boolean damaged;
+    private int timeDamaged;
+    private boolean death;
+    private State state;
 
-	protected int maxHP;
-	private State state;
-	
-	
-	public boolean rightPressed = false;
-	public boolean leftPressed = false;
-	
-	public GameEntity(float x, float y, float width, float height) {
-		super(x, y, width, height);
+    public GameEntity(float x, float y, float width, float height) {
+        super(x, y, width, height);
 
-	}
-	
-	
-	public GameEntity(Rectangle rect) {
-		super(rect);
-		hasModifier = false;
-		canJump = true;
-		lookForward = true;
-		timeInJump = 0;
-		jumpPower=5;
-	}
+    }
 
-	protected void init() {
-		death=false;
-		currentHP = maxHP;
-		state = State.Idle;
-		speed=0;
-	}
-	public void doDamage(int damage) {
-		//TODO
-		currentHP-=damage;
-		if(currentHP<0)death=true;
-		damaged=true;
-		timeDamaged=Const.DAMAGE_TIME;
-	}
-	public void update() {
-		
-		if(timeDamaged==0)damaged=false; 
-		timeDamaged--;
-	}
+    public GameEntity(Rectangle rect) {
+        super(rect);
+        hasModifier = false;
+        canJump = true;
+        lookForward = true;
+        timeInJump = 0;
+        jumpPower = 5;
+    }
 
-	public void jump() {
-		if(canJump) {
-			canJump=false;
-			jumped=true;
-			timeInJump=0;
-			this.setVectorY(1);
-		}
-		
-	}
-	
-	public void moveInput() {
-		if(rightPressed&&!leftPressed) {
-			setVectorX(1);
-			lookForward=true;
-			state=State.Walk;
-			speed=this.minSpeed;
-		}
-		if(!rightPressed&&leftPressed){
-			lookForward=false;
-			setVectorX(-1);
-			state=State.Walk;
-			speed=this.minSpeed;
-		}
-		if((!rightPressed&&!leftPressed)||(rightPressed&&leftPressed)) {
-			state=State.Idle;
-			setVectorX(0);
-		}
-	}
-	
-	public boolean isDamaged() {
-		return damaged;
-	}
+    protected void init() {
+        death = false;
+        currentHP = maxHP;
+        state = State.Idle;
+        speed = 0;
+    }
 
-	public int getTimeDamaged() {
-		return timeDamaged;
-	}
+    public void doDamage(int damage) {
+        //TODO
+        currentHP -= damage;
+        if (currentHP < 0) death = true;
+        damaged = true;
+        timeDamaged = Const.DAMAGE_TIME;
+    }
 
-	public boolean isDeath() {
-		return death;
-	}
+    public void update() {
 
-	public boolean isJumped() {
-		return jumped;
-	}
+        if (timeDamaged == 0) damaged = false;
+        timeDamaged--;
+    }
 
-	public void setJumped(boolean jumped) {
-		this.jumped = jumped;
-	}
+    public void jump() {
+        if (canJump) {
+            canJump = false;
+            jumped = true;
+            timeInJump = 0;
+            this.setVectorY(1);
+        }
 
-	public float getJumpPower() {
-		return jumpPower;
-	}
+    }
 
-	public void setJumpPower(float jumpPower) {
-		this.jumpPower = jumpPower;
-	}
+    public void moveInput() {
+        if (rightPressed && !leftPressed) {
+            setVectorX(1);
+            lookForward = true;
+            state = State.Walk;
+            speed = this.minSpeed;
+        }
+        if (!rightPressed && leftPressed) {
+            lookForward = false;
+            setVectorX(-1);
+            state = State.Walk;
+            speed = this.minSpeed;
+        }
+        if ((!rightPressed && !leftPressed) || (rightPressed && leftPressed)) {
+            state = State.Idle;
+            setVectorX(0);
+        }
+    }
 
-	
+    public boolean isDamaged() {
+        return damaged;
+    }
 
-	public State getState() {
-		return state;
-	}
+    public int getTimeDamaged() {
+        return timeDamaged;
+    }
 
-	public void setState(State state) {
-		this.state = state;
-	}
+    public boolean isDeath() {
+        return death;
+    }
 
-	public boolean isPlayer() {
-		return isPlayer;
-	}
+    public boolean isJumped() {
+        return jumped;
+    }
 
-	protected void setPlayer() {
-		isPlayer = true;
-	}
+    public void setJumped(boolean jumped) {
+        this.jumped = jumped;
+    }
 
-	public boolean isHasModifier() {
-		return hasModifier;
-	}
+    public float getJumpPower() {
+        return jumpPower;
+    }
 
-	public void setHasModifier(boolean hasModifier) {
-		this.hasModifier = hasModifier;
-	}
+    public void setJumpPower(float jumpPower) {
+        this.jumpPower = jumpPower;
+    }
 
-	public boolean isCanJump() {
-		return canJump;
-	}
+    public State getState() {
+        return state;
+    }
 
-	public void setCanJump(boolean canJump) {
-		this.canJump = canJump;
-	}
+    public void setState(State state) {
+        this.state = state;
+    }
 
+    public boolean isPlayer() {
+        return isPlayer;
+    }
 
+    protected void setPlayer() {
+        isPlayer = true;
+    }
 
-	public int getTimeInJump() {
-		return timeInJump;
-	}
+    public boolean isHasModifier() {
+        return hasModifier;
+    }
 
-	public void setTimeInJump(int timeInJump) {
-		this.timeInJump = timeInJump;
-	}
+    public void setHasModifier(boolean hasModifier) {
+        this.hasModifier = hasModifier;
+    }
 
-	public int getMaxHP() {
-		return maxHP;
-	}
+    public boolean isCanJump() {
+        return canJump;
+    }
 
-	public void setMaxHP(int maxHP) {
-		this.maxHP = maxHP;
-	}
+    public void setCanJump(boolean canJump) {
+        this.canJump = canJump;
+    }
 
-	public int getCurrentHP() {
-		return currentHP;
-	}
+    public int getTimeInJump() {
+        return timeInJump;
+    }
 
-	public void setCurrentHP(int currentHP) {
-		this.currentHP = currentHP;
-	}
+    public void setTimeInJump(int timeInJump) {
+        this.timeInJump = timeInJump;
+    }
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public void setMaxHP(int maxHP) {
+        this.maxHP = maxHP;
+    }
+
+    public int getCurrentHP() {
+        return currentHP;
+    }
+
+    public void setCurrentHP(int currentHP) {
+        this.currentHP = currentHP;
+    }
 }

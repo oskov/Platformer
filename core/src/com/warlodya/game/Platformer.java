@@ -5,14 +5,14 @@ import com.warlodya.game.screens.GameScreen;
 import com.warlodya.game.util.ContentLoader;
 
 public class Platformer extends Game {
-	private ContentLoader loader;
-	@Override
-	public void create() {
-		loader=new ContentLoader();
-		loader.finishLoad();
-		setScreen(new GameScreen());
-		
-	}
+    private ContentLoader loader;
 
+    @Override
+    public void create() {
+        loader = new ContentLoader();
+        loader.finishLoad();
+        setScreen(new GameScreen());
+
+    }
 
 }
