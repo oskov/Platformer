@@ -87,10 +87,7 @@ public abstract class Entity {
         bounds.setY(y);
     }
 
-    public float getWidth() {
-
-        return bounds.width;
-    }
+    public float getWidth() { return bounds.width; }
 
     public float getHeight() {
         return bounds.height;

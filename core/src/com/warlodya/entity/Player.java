@@ -5,7 +5,6 @@ public class Player extends GameEntity {
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
         this.setPlayer();
-        this.maxHP = 10;
         this.TextureName = "Skeleton";
         setMinSpeed(1);
         setMaxSpeed(3);

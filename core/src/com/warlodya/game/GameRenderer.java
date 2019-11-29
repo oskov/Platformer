@@ -144,22 +144,15 @@ public class GameRenderer {
         batch.begin();
         for (GameEntity e : ent) {
             if (!Const.DEBUG) {
-                if (e.isDamaged())
-                    batch.setColor(new Color(1, 1 - e.getTimeDamaged() * 0.1f, 1 - e.getTimeDamaged() * 0.1f, 0));
-                else batch.setColor(Color.WHITE);
-
                 Animation<TextureRegion> animation = textures.get(e.getTextureName() + e.getState()).get(e.getState());
                 TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
                 boolean flip = !e.isLookForward();
                 batch.draw(currentFrame, flip ? e.getX() + e.getWidth() : e.getX(), e.getY(),
                         flip ? -e.getWidth() : e.getWidth(),                        // trick for performance
                         e.getHeight());
-
             } else {
                 renderDebug(e);
-
             }
-
         }
 
         batch.end();

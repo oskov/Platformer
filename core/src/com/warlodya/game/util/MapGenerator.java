@@ -13,8 +13,8 @@ public class MapGenerator {
                 int rand = r.nextInt(100);
                 int res = 0;
                 if (rand > g) {
-                    if (rand > c) res = 2;
-                    else res = 1;
+                    if (rand > c) res = 2; // blue square
+                    else res = 1; // yellow square
                 }
                 out[a][b] = res;
             }

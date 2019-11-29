@@ -11,7 +11,6 @@ public class InputHandler implements InputProcessor {
 
     public InputHandler(GameLogic game) {
         player = game.getPlayer();
-
     }
 
     @Override
@@ -30,8 +29,9 @@ public class InputHandler implements InputProcessor {
                 player.jump();
                 break;
         }
-        if (moveinput)
+        if (moveinput) {
             player.moveInput();
+        }
         return false;
     }
 

@@ -10,7 +10,6 @@ import java.util.LinkedList;
 
 public class GameLogic {
     private int[][] gameMap;
-    private int score;
     private LinkedList<GameEntity> mobList;
 
     private Player player;
@@ -38,11 +37,9 @@ public class GameLogic {
         }
 
         if (m.getVectorY() != 0) {
-
             moveY(m);
         } else {
             checkFalling(m);
-
         }
 
     }
@@ -75,10 +72,11 @@ public class GameLogic {
         }
 
         m.setX(resultposition);
-        if (m.getSpeed() <= m.getMaxSpeed())
+        if (m.getSpeed() <= m.getMaxSpeed()) {
             m.setSpeed(m.getSpeed() + m.getAcceleration());
-        else m.setSpeed(m.getMaxSpeed());
-
+        } else {
+            m.setSpeed(m.getMaxSpeed());
+        }
     }
 
     private void checkFalling(GameEntity m) {
@@ -169,13 +167,8 @@ public class GameLogic {
         return gameMap;
     }
 
-    public int getScore() {
-        return score;
-    }
-
     public LinkedList<GameEntity> getmobList() {
-        LinkedList<GameEntity> entityList = new LinkedList<GameEntity>(mobList);
-        return entityList;
+        return new LinkedList<GameEntity>(mobList);
     }
 
     public Player getPlayer() {

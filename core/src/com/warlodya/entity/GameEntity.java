@@ -1,21 +1,15 @@
 package com.warlodya.entity;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.warlodya.game.util.Const;
 
 public abstract class GameEntity extends Entity {
     public boolean rightPressed = false;
     public boolean leftPressed = false;
-    protected int maxHP;
-    private boolean hasModifier;
     private boolean canJump;
     private boolean jumped;
     private boolean isPlayer = false;
     private int timeInJump;
-    private int currentHP;
     private float jumpPower;
-    private boolean damaged;
-    private int timeDamaged;
     private boolean death;
     private State state;
 
@@ -26,7 +20,6 @@ public abstract class GameEntity extends Entity {
 
     public GameEntity(Rectangle rect) {
         super(rect);
-        hasModifier = false;
         canJump = true;
         lookForward = true;
         timeInJump = 0;
@@ -35,23 +28,11 @@ public abstract class GameEntity extends Entity {
 
     protected void init() {
         death = false;
-        currentHP = maxHP;
         state = State.Idle;
         speed = 0;
     }
 
-    public void doDamage(int damage) {
-        //TODO
-        currentHP -= damage;
-        if (currentHP < 0) death = true;
-        damaged = true;
-        timeDamaged = Const.DAMAGE_TIME;
-    }
-
     public void update() {
-
-        if (timeDamaged == 0) damaged = false;
-        timeDamaged--;
     }
 
     public void jump() {
@@ -81,14 +62,6 @@ public abstract class GameEntity extends Entity {
             state = State.Idle;
             setVectorX(0);
         }
-    }
-
-    public boolean isDamaged() {
-        return damaged;
-    }
-
-    public int getTimeDamaged() {
-        return timeDamaged;
     }
 
     public boolean isDeath() {
@@ -127,14 +100,6 @@ public abstract class GameEntity extends Entity {
         isPlayer = true;
     }
 
-    public boolean isHasModifier() {
-        return hasModifier;
-    }
-
-    public void setHasModifier(boolean hasModifier) {
-        this.hasModifier = hasModifier;
-    }
-
     public boolean isCanJump() {
         return canJump;
     }
@@ -149,21 +114,5 @@ public abstract class GameEntity extends Entity {
 
     public void setTimeInJump(int timeInJump) {
         this.timeInJump = timeInJump;
-    }
-
-    public int getMaxHP() {
-        return maxHP;
-    }
-
-    public void setMaxHP(int maxHP) {
-        this.maxHP = maxHP;
-    }
-
-    public int getCurrentHP() {
-        return currentHP;
-    }
-
-    public void setCurrentHP(int currentHP) {
-        this.currentHP = currentHP;
     }
 }
